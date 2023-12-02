@@ -2,11 +2,14 @@ from ..models import CharacterSet
 import re 
 import unicodedata
 
-character_set = CharacterSet.objects.latest('pk')
+try:
+    character_set = CharacterSet.objects.latest('pk')
+except:
+    character_set = ""
 
 
 def validate_string_charset(input_string):    
-    valid_characters = set("() 'aA-àÀ?âÂ,bB.cC;çÇ:dD!eEéÉèÈêÊëfFgGhHiIîÎïjJkKlLmMnNoOôÔpPqQrRsStTuUùûvVwWxXyYzZ")
+    valid_characters = set(character_set)
     input_set = set(input_string)    
     return all(char in valid_characters or char.isspace() for char in input_set)
 

@@ -24,8 +24,3 @@ class Command(BaseCommand):
 
 
 
-
-        # print(local_folder_path)
-        # self.store_audio_in_db()
-        # blob_storage_handler.upload_files(local_folder_path)
-
