@@ -5,7 +5,7 @@ from .utils.transcription_validators import *
 class AudioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Audio
-        fields = ('id','name','azure_blob_name','transcription','created_at','updated_at')
+        fields = ('id','name','azure_blob_name','duration','description','user_id','transcription','created_at','updated_at')
         
     def validate_transcription(sef, value):
         if value is not None:

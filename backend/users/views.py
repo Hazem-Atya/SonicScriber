@@ -18,7 +18,12 @@ def login(request):
     serializer = UserSerializer(instance=user)
     return Response({"token": token.key, "user": serializer.data})
     
-
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    request.user.auth_token.delete()
+    return Response({"message": "Logged out successfully!"}  )
 
 @api_view(['POST'])
 def signup(request):

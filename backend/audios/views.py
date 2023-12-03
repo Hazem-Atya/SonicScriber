@@ -34,6 +34,19 @@ def get_audio_by_id(request,id):
     except:
         return Response({"message": "Audio file Not found"},status=status.HTTP_404_NOT_FOUND)
 
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_audio_by_user_id(request):
+    try:
+        audios = Audio.objects.filter(user_id=request.user.id)
+    except:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    serializer = AudioSerializer(audios, many = True)
+    return Response(serializer.data, status = status.HTTP_200_OK)
+
+
 
 @api_view(['PATCH'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
@@ -46,8 +59,9 @@ def add_transcription(request,id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     if 'transcription' not in request.data:
         return Response(status= status.HTTP_400_BAD_REQUEST)
-    
-    transcription = {"transcription": request.data["transcription"]}
+    if audio.user_id is not None:
+        return Response({  "message": "This audio has already been transcribed by another user."},status=status.HTTP_409_CONFLICT)
+    transcription = {"transcription": request.data["transcription"], "user_id": request.user.id}
     serializer = AudioSerializer(audio, data=transcription, partial=True)
     if serializer.is_valid():
         serializer.save()
