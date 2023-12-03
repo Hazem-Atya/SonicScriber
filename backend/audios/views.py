@@ -6,15 +6,27 @@ from rest_framework import status
 from .blob_storage import blob_storage_handler
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.pagination import PageNumberPagination
+
+
+class CustomPageNumberPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_all_audios(request):
-    
+    paginator = CustomPageNumberPagination()
+
     audios_data = Audio.objects.all()
-    serializer = AudioSerializer(audios_data, many = True)
-    return Response(serializer.data, status = status.HTTP_200_OK)
+    result_page = paginator.paginate_queryset(audios_data, request)
+    
+    serializer = AudioSerializer(result_page, many = True)
+    return paginator.get_paginated_response(serializer.data)
+    
+#    return Response(serializer.data, status = status.HTTP_200_OK)
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
@@ -37,14 +49,15 @@ def get_audio_by_id(request,id):
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
-def get_audio_by_user_id(request):
-    try:
-        audios = Audio.objects.filter(user_id=request.user.id)
-    except:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+def get_users_audios(request):
+    
+    paginator = CustomPageNumberPagination()
 
-    serializer = AudioSerializer(audios, many = True)
-    return Response(serializer.data, status = status.HTTP_200_OK)
+    audios = Audio.objects.filter(user_id=request.user.id)
+    result_page = paginator.paginate_queryset(audios, request)
+
+    serializer = AudioSerializer(result_page, many = True)
+    return paginator.get_paginated_response(serializer.data)
 
 
 
