@@ -1,4 +1,3 @@
-# from azure.storage.blob import BlobServiceClient
 import os
 import datetime
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, generate_blob_sas, BlobSasPermissions
@@ -36,10 +35,10 @@ class BlobStorageHandler():
         # Create a SAS token that's valid for one day, as an example
         blob_client = self.container_client.get_blob_client(blob_name)
         if blob_client.exists():
-            start_time = datetime.datetime.now(datetime.timezone.utc)
-        
-            expiry_time = start_time + datetime.timedelta(days=1)
-            
+            start_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=5)
+            expiry_time = start_time + datetime.timedelta(days=10)
+            print(start_time)
+            print(expiry_time)            
             sas_token = generate_blob_sas(
                 account_name=blob_client.account_name,
                 container_name=blob_client.container_name,

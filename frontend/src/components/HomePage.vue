@@ -8,7 +8,6 @@
 <script>
 import AudioList from './AudioList.vue'
 // import AudioDetails from './AudioDetails.vue'
-import {AUDIOS_DATA} from './common/constants.js'
 import {API_URL}  from "./common/config.js"
 
 
@@ -25,7 +24,7 @@ export default {
   },
   data() {
     return {
-      audios: AUDIOS_DATA
+      audios: []
     };
   },
   methods:{    
