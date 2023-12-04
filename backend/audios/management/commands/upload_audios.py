@@ -19,7 +19,7 @@ class Command(BaseCommand):
                     blob_name = blob_storage_handler.upload_file(local_folder_path,local_file_path)
                     if blob_name:
                         name = '.'.join(blob_name.split('.')[:-1])
-                        Audio.objects.create(name=name,azure_blob_name= blob_name)
+                        Audio.objects.create(name=name,azure_blob_name= blob_name,duration=12,description="A short description of the audio")
                     
 
 

@@ -26,3 +26,12 @@ def check_spaces(input_string):
     '''Returns true if there is only zero or one space between two characters, false otherwise'''
     pattern = re.compile(r'^\S+(\s?\S+)*$')
     return bool(pattern.match(input_string))
+
+def check_punctuation(text):
+    pattern = re.compile(r'[?!\.](?:\s[A-Z]|$)')
+
+    # Find all matches in the text
+    matches = re.findall(pattern, text)
+
+    # If the number of matches is equal to the number of punctuation occurrences, return True
+    return len(matches) == text.count('?') + text.count('!') + text.count('.')

@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 
 
 class CustomPageNumberPagination(PageNumberPagination):
-    page_size = 3
+    page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
 
@@ -26,7 +26,6 @@ def get_all_audios(request):
     serializer = AudioSerializer(result_page, many = True)
     return paginator.get_paginated_response(serializer.data)
     
-#    return Response(serializer.data, status = status.HTTP_200_OK)
 
 @api_view(['GET'])
 @authentication_classes([SessionAuthentication, TokenAuthentication])

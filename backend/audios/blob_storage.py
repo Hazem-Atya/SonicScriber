@@ -36,9 +36,7 @@ class BlobStorageHandler():
         blob_client = self.container_client.get_blob_client(blob_name)
         if blob_client.exists():
             start_time = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=5)
-            expiry_time = start_time + datetime.timedelta(days=10)
-            print(start_time)
-            print(expiry_time)            
+            expiry_time = start_time + datetime.timedelta(days=10)        
             sas_token = generate_blob_sas(
                 account_name=blob_client.account_name,
                 container_name=blob_client.container_name,
@@ -57,19 +55,6 @@ class BlobStorageHandler():
 blob_storage_handler = BlobStorageHandler()
 
 
-# Create a ContainerClient object
-
-# Loop through all the local folders
-
-
-
-# def get_blob_names():
-#     blob_list = container_client.list_blobs()
-    
-#     blob_names = [blob.name for blob in blob_list]
-#     print(blob_names)
-#     return blob_names
-#     # print(blob_list)
 
 
 
