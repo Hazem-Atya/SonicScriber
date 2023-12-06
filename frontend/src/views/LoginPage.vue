@@ -1,13 +1,14 @@
 <template>
     <div class="signin-container">
-        <el-form label-position="top" label-width="100px" :model="formLabelAlign" style="max-width: 460px" class="form">
+        <el-form v-loading="loading" label-position="top" label-width="100px" :model="formLabelAlign"
+            style="max-width: 460px" class="form">
             <h2>Login</h2>
             <br>
             <el-form-item label="Username">
-                <el-input v-model="formLabelAlign.username" />
+                <el-input required v-model="formLabelAlign.username" />
             </el-form-item>
             <el-form-item label="Password">
-                <el-input type="password" v-model="formLabelAlign.password" />
+                <el-input required type="password" v-model="formLabelAlign.password" />
             </el-form-item>
             <el-form-item>
                 <el-button @click="login">Login</el-button>
@@ -19,8 +20,9 @@
   
 <script>
 import { reactive } from "vue";
-import { ElForm, ElFormItem, ElInput, ElButton } from "element-plus";
 import { AuthService } from "../common/auth.service.js"
+
+
 
 const formLabelAlign = reactive({
     username: "",
@@ -29,22 +31,23 @@ const formLabelAlign = reactive({
 
 export default {
     name: "LoginPage",
-    components: {
-        ElForm,
-        ElFormItem,
-        ElInput,
-        ElButton,
+    mounted() {
+        formLabelAlign.username = "";
+        formLabelAlign.password = "";
     },
+
     data: function () {
         return {
-            formLabelAlign
+            formLabelAlign,
+            loading: false
         };
     },
     methods: {
-        login() {
-            AuthService.login(formLabelAlign);
-            formLabelAlign.username=""
-            formLabelAlign.password=""
+
+        async login() {
+            this.loading = true;
+            await AuthService.login(formLabelAlign);
+            this.loading = false;
         }
     }
 };

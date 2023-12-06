@@ -13,19 +13,21 @@
                 <router-link to="/audios">
                     <el-menu-item v-if="AuthService.isLoggedIn()" index="2">All Audios</el-menu-item>
                 </router-link>
-       
-    
+
+
                 <div class="flex-grow"></div>
 
                 <router-link to="/signup">
-                    <el-menu-item index="5" v-if="!AuthService.isLoggedIn()">Sign up</el-menu-item>
+                    <el-menu-item index="3" v-if="!AuthService.isLoggedIn()">Sign up</el-menu-item>
                 </router-link>
                 <router-link to="/login">
                     <el-menu-item index="4" v-if="!AuthService.isLoggedIn()">Login</el-menu-item>
                 </router-link>
-                <el-menu-item  @click="logout" index="4" v-if="AuthService.isLoggedIn()">Logout</el-menu-item>
+                <router-link to="/login">
+                    <el-menu-item @click="logout" index="5" v-if="!!AuthService.isLoggedIn()">Logout</el-menu-item>
+                </router-link>
             </el-menu>
-            
+
         </el-col>
     </el-row>
 </template>
@@ -45,9 +47,8 @@ export default {
         };
     },
     methods: {
-        logout(){
+        logout() {
             AuthService.logout();
-            this.$router.push("/")
         }
     }
 };

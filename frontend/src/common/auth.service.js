@@ -13,7 +13,7 @@ export const AuthService = {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user)
         };
-        fetch(API_URL + '/users/signup/', requestOptions).then((response) => {
+        return fetch(API_URL + '/users/signup/', requestOptions).then((response) => {
             response.json().then((data) => {
                 if (!response.ok) {
                     $toast.error(JSON.stringify(data), {
@@ -35,13 +35,13 @@ export const AuthService = {
             });
     }
     ,
-    login(user) {
+     login(user) {
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(user)
         };
-        fetch(API_URL + '/users/login/', requestOptions).then((response) => {
+        return fetch(API_URL + '/users/login/', requestOptions).then((response) => {
             response.json().then((data) => {
                 if (!response.ok) {
                     $toast.error(JSON.stringify(data), {
